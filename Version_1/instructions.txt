@@ -1,0 +1,7 @@
+g++ -o RSA_server RSA_server.cpp RSA_coding.cpp -lwsock32
+
+g++ -o RSA_client RSA_client.cpp RSA_coding.cpp -lwsock32
+
+.\RSA_server.exe 9999
+
+.\RSA_client.exe 9999
