@@ -41,7 +41,7 @@ ll quick_power(ll mod,ll num,ll power){
         return (num*x*x)%mod;
     }
     else
-        return x*x%mod;
+        return (x*x)%mod;
 }
 
 char RSA_coding_decoding(char data,ll mod,ll power){

@@ -58,11 +58,6 @@ int main(int argc, char* argv[]){
 
     //和客户端进行沟通
     while(true){
-        //char default_message[1025];
-        //memset(default_message, 0, 1025);
-        //sscanf(default_message,"You are served by a server now. The public key is e:%lld, N:%lld.\n",&key[0],&key[2]);
-        //这里用scanf会出问题，不知道为什么
-
         std::string default_message = "You are served by a server now. The public key is e:";
         default_message += std::to_string(key[0]);
         default_message += ", ";
@@ -83,6 +78,12 @@ int main(int argc, char* argv[]){
         if(receive_ == -1){
             perror("Failed to receive.\n");
             exit(-1);
+        }
+
+        int i=0;
+        while(rec_buf[i]!='\0'){
+            rec_buf[i] = RSA_coding_decoding(rec_buf[i],key[2] ,key[1]);
+            i++;
         }
 
         printf("%s",rec_buf);

@@ -1,6 +1,7 @@
 #include "RSA_coding.h"
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include<string>
 #include <windows.h>
 
 int main(int argc, char* argv[]){
@@ -37,9 +38,22 @@ int main(int argc, char* argv[]){
             exit(-1);
         }
         printf("%s",receive_buf);
-        char message[100];
-        memcpy(message,"hello world.\n",14);
-        send(client_sock,message,strlen(message),0);
+        std::string message;
+        printf("Please input the mod and power keys and the message.\n");
+        ll mod,e;
+        printf("mod:");
+        std::cin>>mod;
+        printf("e:");
+        std::cin>>e;
+        getline(std::cin,message);
+        printf("message:");
+        getline(std::cin,message);
+        int i=0;
+        while(message[i]!='\0'){
+            message[i] = RSA_coding_decoding(message[i], e, mod);
+            i++;
+        }
+        send(client_sock,message.c_str(),message.length(),0);
         Sleep(1000);
     }
 
