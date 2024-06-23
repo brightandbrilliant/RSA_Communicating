@@ -44,7 +44,7 @@ ll quick_power(ll mod,ll num,ll power){
         return x*x%mod;
 }
 
-char RSA_coding_decoding(char data,ll mod,ll power){
+char RSA_coding_decoding_char(char data,ll mod,ll power){
     //power is e when coding and d when decoding
     ll a1 = (ll)data;
     ll a2 = quick_power(mod,a1,power);
@@ -74,4 +74,11 @@ std::vector<ll> generating_key(){
     ll mod = (p1-1)*(p2-1);
     ll d = Inverse_Element(e,mod);
     return {e,d,N};
+}
+
+void RSA_coding_decoding_string(std::string& message, ll mod, ll power){
+    for(int i=0;i<message.length();i++){
+        message[i] = RSA_coding_decoding_char(message[i],mod,power);
+    }
+    return;
 }
