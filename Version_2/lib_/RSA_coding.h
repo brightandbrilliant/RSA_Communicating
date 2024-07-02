@@ -22,5 +22,8 @@ ll quick_power(ll mod,ll num,ll power);
 
 std::vector<ll> generating_key();
 
+void Hash_coding(std::string& message);
+
+void Hash_decoding(std::string& message);
 
 #endif

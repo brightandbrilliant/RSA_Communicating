@@ -1,4 +1,4 @@
-#include "lib_\RSA_tcp_server_class.h"
+#include "lib_\tcp_server_client_class.h"
 #include "lib_\RSA_coding.h"
 
 #define max_client 5
@@ -10,6 +10,9 @@ int main(int argc, char* argv[]){
     }
     std::vector<ll> key = generating_key();
     int server_port = atoi(argv[1]);
+
+    tcp_server Server;
+    tcp_communicate Communicator;
 
     //创建服务端
     WSADATA wsadata;
@@ -23,24 +26,22 @@ int main(int argc, char* argv[]){
     }
     struct sockaddr_in server_socket_address,client_address;
     socklen_t client_len = sizeof(client_address);
-    bind_to_client(server_socket_address,client_address,server_port,server_sock);
+    Server.bind_to_client(server_socket_address,client_address,server_port,server_sock);
 
     listen(server_sock, max_client);
     printf("Server listening on %d.\n",server_port);
 
     //接受客户端
-    accept_client(client_sock,client_address,client_len,server_sock);
+    Server.accept_client(client_sock,client_address,client_len,server_sock);
 
     //和客户端进行沟通
     while(true){
-        std::string test_message = "Hello client!\n";
-        message_send(client_sock,test_message);
-        char recv_[1024];
-        memset(recv_, 0, 1024);
-        recv(client_sock,recv_,1024,0);
-        std::string recv_str = std::string(recv_);
+        std::string test_message = "You are connected to the server now.\n";
+        Communicator.message_send(client_sock,test_message);
+
+        std::string recv_str = Communicator.receive_message(client_sock);
         Hash_decoding(recv_str);
-        printf("%s",recv_str.c_str());
+        printf("Receive message: %s\n",recv_str.c_str());
     }
 
     closesocket(client_sock);

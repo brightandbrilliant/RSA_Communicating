@@ -6,9 +6,9 @@
 #include<winsock2.h>
 #include<iostream>
 
+void connect_to_server(sockaddr_in& socket_addr,int port,SOCKET& client_sock);
 
-
-
+void message_send(SOCKET& client_sock,std::string& test_message);
 
 
 #endif
