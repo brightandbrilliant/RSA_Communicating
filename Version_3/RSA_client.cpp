@@ -16,7 +16,10 @@ int main(int argc, char* argv[]){
     WSAStartup(MAKEWORD(2, 2), &wsadata);
     SOCKET client_sock;
     client_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
+    if(client_sock==-1){
+        perror("Failed to create client socket.\n");
+        exit(-1);
+    }
     struct sockaddr_in socket_addr;
     Client.connect_to_server(socket_addr,port,client_sock);
 
