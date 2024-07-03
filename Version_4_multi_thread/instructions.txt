@@ -9,3 +9,6 @@ g++ -o RSA_transist RSA_transist.cpp include\RSA_coding.cpp include\tcp_server_c
 .\RSA_client.exe 7777
 
 .\RSA_transist.exe 9999 7777
+
+mingw32-make
+//这是windows环境下的makefile命令

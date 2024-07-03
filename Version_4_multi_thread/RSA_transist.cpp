@@ -1,6 +1,6 @@
 #include "lib_\tcp_server_client_class.h"
 #include "lib_\RSA_coding.h"
-
+#include "lib_\multi_thread.h"
 #define max_client 5
 
 int main(int argc,char* argv[]){
@@ -33,23 +33,13 @@ int main(int argc,char* argv[]){
     listen(server_sock, max_client);
     printf("Transister listening on %d.\n",port_to_client);
     Server.accept_client(client_sock,client_address,client_len,server_sock);
-    bool begin_flag=true;
 
     while(true){
-        if(begin_flag){
-            std::cout<<"You are connected to the server now.\n";
-            begin_flag = false;
-        }
-
-        std::string receive_server_message = 
-            Communicator.receive_message(client_sock_to_server);
-        Communicator.message_send(client_sock,receive_server_message);
-
-        std::string receive_client_message = 
-            Communicator.receive_message(client_sock);
-        Communicator.message_send(client_sock_to_server,receive_client_message);
-
-        printf("Message from client: %s\n",receive_client_message.c_str());
+        transistor_handle_client handler;
+        handler.Communicator = Communicator;
+        handler.client_sock = client_sock;
+        handler.client_sock_to_server = client_sock_to_server;
+        transis_client_handle(handler);
     }
 
     WSACleanup();
