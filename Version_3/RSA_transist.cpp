@@ -57,6 +57,8 @@ int main(int argc,char* argv[]){
         std::string receive_client_message = 
             Communicator.receive_message(client_sock);
         Communicator.message_send(client_sock_to_server,receive_client_message);
+
+        printf("Message from client: %s\n",receive_client_message.c_str());
     }
 
 }

@@ -24,15 +24,18 @@ int main(int argc, char* argv[]){
     Client.connect_to_server(socket_addr,port,client_sock);
 
     bool begin_flag = true;
+    int N=0;
+    int e=0;
     while(true){
         if(begin_flag){
             std::cout<<"You are connected to the server now.\n";
+            Communicator.input_mod_power(N,e);
             begin_flag=false;
         }
         
         std::string message;
         Communicator.input_message(message);
-        Hash_coding(message);
+        message = RSA_coding_string(message,N,e);
         Communicator.message_send(client_sock, message);
         std::cout<<std::endl;
         std::string recv_ = Communicator.receive_message(client_sock);

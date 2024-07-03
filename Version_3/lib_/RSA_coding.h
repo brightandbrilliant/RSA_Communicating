@@ -12,18 +12,20 @@ std::vector<ll> Extend_Euclid(ll a,ll b);
 
 ll random_prime_number();
 
-ll Inverse_Element(ll a,ll mod);
+ll Inverse_Element(ll a,ll mod);//如果逆元是负数将会导致解密错误，必须使用正数逆元才行
 
-char RSA_coding_decoding_char(char data,ll mod,ll power);
+ll RSA_coding_decoding_char(char data,ll mod,ll power);
 
-void RSA_coding_decoding_string(std::string& message, ll mod, ll power);
+std::string RSA_coding_string(const std::string& message, ll mod, ll power);
+
+std::string RSA_decoding_string(const std::string& message, ll mod, ll power);
 
 ll quick_power(ll mod,ll num,ll power);
 
 std::vector<ll> generating_key();
 
-void Hash_coding(std::string& message);
+std::string test_coding(const std::string& message);
 
-void Hash_decoding(std::string& message);
+std::string test_decoding(const std::string& message);
 
 #endif

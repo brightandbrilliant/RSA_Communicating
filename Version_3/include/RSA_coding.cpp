@@ -29,6 +29,9 @@ std::vector<ll> Extend_Euclid(ll a,ll b){
 
 ll Inverse_Element(ll a,ll mod){
     std::vector<ll> res = Extend_Euclid(a,mod);
+    while(res[0]<0){
+        res[0] += mod;
+    }
     return res[0];
 }
 
@@ -44,11 +47,10 @@ ll quick_power(ll mod,ll num,ll power){
         return x*x%mod;
 }
 
-char RSA_coding_decoding_char(char data,ll mod,ll power){
+ll RSA_coding_decoding_char(ll data,ll mod,ll power){
     //power is e when coding and d when decoding
-    ll a1 = (ll)data;
-    ll a2 = quick_power(mod,a1,power);
-    return (char)a2;
+    ll res = quick_power(mod,data,power);
+    return res;
 }
 
 ll random_prime_number(){
@@ -76,23 +78,69 @@ std::vector<ll> generating_key(){
     return {e,d,N};
 }
 
-void RSA_coding_decoding_string(std::string& message, ll mod, ll power){
+std::string RSA_coding_string(const std::string& message, ll mod, ll power){
+    std::string message_="...";
     for(int i=0;i<message.length();i++){
-        message[i] = RSA_coding_decoding_char(message[i],mod,power);
+        ll num = RSA_coding_decoding_char((ll)message[i],mod,power);
+        std::string num_str = std::to_string(num);
+        message_ += num_str;
+        message_ += "...";
     }
-    return;
+    return message_;
+};
+
+std::string RSA_decoding_string(const std::string& message, ll mod, ll power){
+    std::string message_decoding = "";
+    for(int i=0;i<message.length();){
+        if(message[i] == '.'){
+            i++;
+        }
+        else{
+            std::string num_str = "";
+            int i1=i;
+            for(;message[i1]!='.';i1++){
+                num_str+=message[i1];
+            }
+            ll num = std::stol(num_str);
+            ll tmp = RSA_coding_decoding_char(num,mod,power);
+            message_decoding += char(tmp);
+            i = i1;
+        }
+    }
+    return message_decoding;
 }
 
-void Hash_coding(std::string& message){
+std::string test_coding(const std::string& message){
+    std::string message_ = "...";
     for(int i=0;i<message.length();i++){
-        message[i] = message[i]+1;
+        int num = (int)message[i];
+        num += 1;
+        message_ += std::to_string(num);
+        message_ += "...";
     }
-    return;
+    return message_;
 }
 
-void Hash_decoding(std::string& message){
-    for(int i=0;i<message.length();i++){
-        message[i] = message[i]-1;
+std::string test_decoding(const std::string& message){
+    
+    std::string message_ = "";
+
+    for(int i=0;i<message.length();){
+        if(message[i]=='.'){
+            i++;
+        }
+        else{
+            std::string num_str="";
+            int i1=0;
+            for(i1=i;message[i1]!='.';i1++){
+                num_str+=message[i1];
+            }
+            i=i1;
+            int num = std::stoi(num_str);
+            num--;
+            message_ += char(num);
+        }
     }
-    return;
+
+    return message_;
 }

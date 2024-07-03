@@ -27,6 +27,7 @@ class tcp_communicate{
         void message_send(SOCKET& client_sock,const std::string& test_message);
         void input_message(std::string& message);
         std::string receive_message(SOCKET& client_sock);
+        void input_mod_power(int& N,int& e);
 };
 
 

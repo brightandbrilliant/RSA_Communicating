@@ -50,6 +50,15 @@ void tcp_communicate::input_message(std::string& message){
     return;
 };
 
+void tcp_communicate::input_mod_power(int& N,int& e){
+    std::cout<<"Please input your N: ";
+    std::cin>>N;
+    std::cout<<"Please input your public key e: ";
+    std::cin>>e;
+    std::cin.get();
+    return;
+};
+
 std::string tcp_communicate::receive_message(SOCKET& client_sock){
     char recv_[1024];
     memset(recv_, 0, 1024);

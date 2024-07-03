@@ -11,6 +11,9 @@ int main(int argc, char* argv[]){
     std::vector<ll> key = generating_key();
     int server_port = atoi(argv[1]);
 
+    std::cout<<"The secret key d is "<<key[1]<<". The public key e is "<<key[0]<<". The mod is "
+    <<key[2]<<".\n";
+
     tcp_server Server;
     tcp_communicate Communicator;
 
@@ -40,8 +43,13 @@ int main(int argc, char* argv[]){
         Communicator.message_send(client_sock,test_message);
 
         std::string recv_str = Communicator.receive_message(client_sock);
-        Hash_decoding(recv_str);
+        recv_str = RSA_decoding_string(recv_str,key[2],key[1]);
         printf("Receive message: %s\n",recv_str.c_str());
+
+        if(recv_str.find("Exit")==0){
+            printf("Exit the program.\n");
+            break;
+        }
     }
 
     closesocket(client_sock);
