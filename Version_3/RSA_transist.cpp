@@ -20,17 +20,8 @@ int main(int argc,char* argv[]){
     WSAStartup(MAKEWORD(2, 2), &wsadata);
     SOCKET server_sock,client_sock,client_sock_to_server;
 
-    server_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(server_sock==-1){
-        perror("Failed to create server socket.\n");
-        exit(-1);
-    }
-
-    client_sock_to_server = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(client_sock_to_server ==-1){
-        perror("Failed to create client socket.\n");
-        exit(-1);
-    }
+    Communicator.socket_create(server_sock);
+    Communicator.socket_create(client_sock_to_server);
 
     struct sockaddr_in socket_addr;
     Client.connect_to_server(socket_addr,port_to_server,client_sock_to_server);
@@ -61,4 +52,7 @@ int main(int argc,char* argv[]){
         printf("Message from client: %s\n",receive_client_message.c_str());
     }
 
+    WSACleanup();
+    closesocket(server_sock);
+    closesocket(client_sock_to_server);
 }

@@ -65,3 +65,11 @@ std::string tcp_communicate::receive_message(SOCKET& client_sock){
     recv(client_sock,recv_,1024,0);
     return std::string(recv_);
 }
+
+void tcp_communicate::socket_create(SOCKET& socket_){
+    socket_ = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if(socket_==-1){
+        perror("Failed to create socket.\n");
+        exit(-1);
+    }
+}

@@ -22,11 +22,7 @@ int main(int argc, char* argv[]){
     WSAStartup(MAKEWORD(2, 2), &wsadata);
     
     SOCKET server_sock,client_sock;
-    server_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(server_sock==-1){
-        perror("Failed to create server socket.\n");
-        exit(-1);
-    }
+    Communicator.socket_create(server_sock);
     struct sockaddr_in server_socket_address,client_address;
     socklen_t client_len = sizeof(client_address);
     Server.bind_to_client(server_socket_address,client_address,server_port,server_sock);
@@ -54,4 +50,5 @@ int main(int argc, char* argv[]){
 
     closesocket(client_sock);
     closesocket(server_sock);
+    WSACleanup();
 }
